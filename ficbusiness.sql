@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2023 at 05:23 PM
+-- Generation Time: Nov 04, 2023 at 06:35 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -136,6 +136,7 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `quantity`
 
 CREATE TABLE `products` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED DEFAULT NULL,
   `product_name` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `price` varchar(50) NOT NULL,
@@ -147,15 +148,16 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'Milk', 'Pran liquid milk with vitamin-D,A etc.', '55', '2023-11-02 16:54:46', '2023-11-02 16:54:46'),
-(2, 'Nut', 'imported nut from india.', '650', '2023-11-02 16:54:46', '2023-11-02 16:54:46'),
-(3, 'Peanut butter', 'sundrop peanut butter.400gm with extra 50gm', '400', '2023-11-02 16:56:37', '2023-11-02 16:56:37'),
-(4, 'Honey', 'Pure honey collected from sundorban', '800', '2023-11-02 16:56:37', '2023-11-02 16:56:37'),
-(5, 'Cucumber', 'fresh cucumber collect from field', '50', '2023-11-02 17:01:57', '2023-11-02 17:01:57'),
-(6, 'Papaya', 'cheap vegetable papaya', '30', '2023-11-02 17:01:57', '2023-11-02 17:01:57'),
-(7, 'Banana', 'healthy food item with vitamin', '100', '2023-11-02 17:04:09', '2023-11-02 17:04:09'),
-(8, 'Mango', 'delicious and fresh item', '80', '2023-11-02 17:04:09', '2023-11-02 17:04:09');
+INSERT INTO `products` (`product_id`, `category_id`, `product_name`, `description`, `price`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Milk', 'Pran liquid milk with vitamin-D,A etc.', '55', '2023-11-02 16:54:46', '2023-11-04 17:17:25'),
+(2, 2, 'Nut', 'imported nut from india.', '650', '2023-11-02 16:54:46', '2023-11-04 17:17:39'),
+(3, 2, 'Peanut butter', 'sundrop peanut butter.400gm with extra 50gm', '400', '2023-11-02 16:56:37', '2023-11-04 17:17:49'),
+(4, 1, 'Honey', 'Pure honey collected from sundorban', '800', '2023-11-02 16:56:37', '2023-11-04 17:17:53'),
+(5, 3, 'Cucumber', 'fresh cucumber collect from field', '50', '2023-11-02 17:01:57', '2023-11-04 17:17:57'),
+(6, 3, 'Papaya', 'cheap vegetable papaya', '30', '2023-11-02 17:01:57', '2023-11-04 17:18:02'),
+(7, 5, 'Banana', 'healthy food item with vitamin', '100', '2023-11-02 17:04:09', '2023-11-04 17:18:11'),
+(8, 5, 'Mango', 'delicious and fresh item', '80', '2023-11-02 17:04:09', '2023-11-04 17:18:16'),
+(10, 1, 'water', 'water is essential', '25', '2023-11-04 17:26:23', '2023-11-04 17:34:31');
 
 --
 -- Indexes for dumped tables
@@ -193,7 +195,8 @@ ALTER TABLE `order_items`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `category_id` (`category_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -227,7 +230,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `product_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -246,6 +249,12 @@ ALTER TABLE `orders`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
